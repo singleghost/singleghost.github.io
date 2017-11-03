@@ -1,0 +1,19 @@
+<html>
+<head>
+</head>
+<body>
+<h1>Serviceworker CSP issues</h1>
+
+<p>Hey, the following test cases are all the same apart from the meta tag served with the CSP policy. This experience appears to be exactly the same with HTTP headers also.
+
+When loading these URLS in FF latest the correct experience is observed</p>
+
+<ul>
+        <!-- <li><a href="iframe.html">Legacy frame-src - expected errors</a> -->
+<li><a href="other.html">set default-src to none and not set worker-src or child-src. - expected errors</a>
+<li><a href="set.html">Set child-src incorrectly to another origin - expected errors</a>
+<li><a href="set-worker-src.html">Set worker-src incorrectly to another origin - expected no errors</a>
+<li><a href="success.html">Correct set worker-src - expected no errors</a>
+</ul>
+</body>
+</html>

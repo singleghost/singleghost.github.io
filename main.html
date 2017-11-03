@@ -1,0 +1,2932 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <link rel="icon" type="image/vnd.microsoft.icon" href="/static/images/monorail.ico">
+ 
+ <link rel="canonical" href="https://bugs.chromium.org/p/chromium/issues/detail?id=579801">
+ 
+ <script type="text/javascript" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K">
+ 
+ var CS_env = {
+ 'absoluteBaseUrl': 'https://bugs.chromium.org',
+ 'app_version': '12261-0182c04.404850745854794817',
+ 'token': '',
+ 
+ 'loggedInUserEmail':
+ 
+ null
+ ,
+ 'login_url': 'https://www.google.com/accounts/ServiceLogin?service\x3dah\x26passive\x3dtrue\x26continue\x3dhttps://appengine.google.com/_ah/conflogin%3Fcontinue%3Dhttps://bugs.chromium.org/p/chromium/issues/detail%253Fid%253D579801',
+ 'logout_url': 'https://bugs.chromium.org/_ah/logout?continue\x3dhttps://www.google.com/accounts/Logout%3Fcontinue%3Dhttps://appengine.google.com/_ah/logout%253Fcontinue%253Dhttps://bugs.chromium.org/p/chromium/issues/detail%25253Fid%25253D579801%26service%3Dah',
+ 'profileUrl':
+ 
+ null
+ ,
+ 'projectName': 'chromium',
+ };
+ </script>
+ 
+ 
+ <title>
+ 579801 - 
+ Security: CSP isn&#39;t applied to Service Workers in Chrome - 
+ 
+ chromium -
+ 
+ 
+ Monorail
+ </title>
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+ <meta name="referrer" content="no-referrer">
+ 
+ <meta name="ROBOTS" content="NOARCHIVE">
+ 
+ <meta name="viewport" content="width=device-width, minimum-scale=1.0">
+ <link type="text/css" rel="stylesheet" href="/static/css/ph_core.css?version=12261-0182c04.404850745854794817">
+ <link type="text/css" rel="stylesheet" href="/static/css/ph_mobile.css?version=12261-0182c04.404850745854794817">
+ 
+ <link type="text/css" rel="stylesheet" href="/static/css/ph_detail.css?version=12261-0182c04.404850745854794817">
+ 
+ 
+ 
+ 
+</head>
+<body class="t2 ">
+<script type="text/javascript" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K">
+ function _go(url, newWindow) {
+ if (newWindow)
+ window.open(url, '_blank');
+ else
+ document.location = url;
+ }
+ function $(id) { return document.getElementById(id); }
+ var loadQueue = [];
+ function runOnLoad(fn) { loadQueue.push(fn); }
+ window.onload = function() {
+ for (var i = 0; i < loadQueue.length; i++)
+ loadQueue[i]();
+ delete loadQueue;
+ };
+</script>
+
+<table id="monobar" width="100%" cellpadding="0" cellspacing="0">
+ <tr>
+ 
+ <th id="thumbnail_box">
+ <a href="https://bugs.chromium.org/p/chromium/issues/" target="_blank">
+ <img src="https://storage.googleapis.com/monorail-prod.appspot.com/16/attachments/85fcb2cb-21bb-4e68-ab6f-dc0a495941ae-thumbnail?Expires=1509285860&amp;GoogleAccessId=monorail-prod%40appspot.gserviceaccount.com&amp;Signature=qY0iGLpc%2BzPXf5nRvivCAOdylE9csl7OOphrAFFNAZNHeILB34O1l%2BEhuM2uBohKK85YGsRM2TCGa4QhDrGeZDZmFkYzEkWxa7KaI%2BliNIslF7J1m9wMOlhjeXLXjrJpPXEhSMXXC9iY0NJNRNoi8SbvUXESYjIhAtv%2Bc3L86i505y94KMw8GkkuQSeqVYlgjHyfkma4csRs4JYoE%2BWOrb5OS5UvLzJhBEC7hr22UUUv2m8pGxCSr3lKBkW7cfH%2BV6VpI7owDLF5RNgzBmLw%2FZcrmhTTBracY%2Bbdzk7C1LQWKg%2Foqn2XzwI9aiZh41Z5rXQsdb0xvCafgBvuGYhGWA%3D%3D">
+ </a>
+ </th>
+ 
+ 
+ <th class="toptabs padded">
+ <a href="/p/chromium/" title="An open-source project to help move the web forward."
+ id="projects-dropdown">Project: chromium <small>&#9660;</small></a>
+ <a href="/p/chromium/issues/list" class="active">Issues</a>
+ <a href="/p/chromium/people/list" class="">People</a>
+ <a href="/p/chromium/adminIntro" class="">Development process</a>
+ <a href="/p/chromium/updates/list" class="">History</a>
+ 
+ </th>
+ 
+ 
+ 
+ <td width="100%" id="userbar">
+ <span style="padding: 0 1em">
+ 
+ <a href="https://www.google.com/accounts/ServiceLogin?service=ah&amp;passive=true&amp;continue=https://appengine.google.com/_ah/conflogin%3Fcontinue%3Dhttps://bugs.chromium.org/p/chromium/issues/detail%253Fid%253D579801"><u>Sign in</u></a>
+ 
+</span>
+
+ </td>
+ </tr>
+</table>
+<script type="text/javascript" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K">
+runOnLoad(function() {
+ if ($("projects-dropdown"))
+ $("projects-dropdown").addEventListener("click", function(event) {
+ event.preventDefault();
+ });
+ if ($("hotlists-dropdown"))
+ $("hotlists-dropdown").addEventListener("click", function(event) {
+ event.preventDefault();
+ });
+});
+</script>
+
+ <div class="subt">
+ 
+ <div class="issueDetail">
+<div class="isf">
+ 
+ 
+ 
+ 
+ <span class="inIssueEntry" style="margin-right:.4em">
+ <a class="buttonify" href="https://www.google.com/accounts/ServiceLogin?service=ah&amp;passive=true&amp;continue=https://appengine.google.com/_ah/conflogin%3Fcontinue%3Dhttps://bugs.chromium.org/p/chromium/issues/entryafterlogin">New issue</a>
+ </span>
+ 
+ <span class="inIssueList" style="margin:0 .4em">
+ <label for="can">Search</label>
+ <form action="list" method="GET" style="display:inline">
+ <select id="can" name="can" ignore-dirty>
+ 
+<option disabled="disabled">Search within:</option>
+<option value="1" 
+ title="All issues in the project">&nbsp;All issues</option>
+<option value="2" selected=selected
+ title="All issues except ones with a closed status">&nbsp;Open issues</option>
+
+<option value="6" 
+ title="[Open issues] status=New">&nbsp;New issues</option>
+<option value="7" 
+ title="[All issues] status=fixed,done">&nbsp;Issues to verify</option>
+
+ 
+ 
+ 
+ 
+
+
+ </select>
+ <label for="searchq">for</label>
+ <span id="qq"><input type="text" size="38" id="searchq" name="q"
+ value="" autocomplete="off" ignore-dirty></span>
+ 
+ 
+ <span id="search_colspec"><input type="hidden" name="colspec" value="ID Pri M Stars ReleaseBlock Component Status Owner Summary OS Modified"></span>
+ <input type="hidden" name="x" value="m">
+ <input type="hidden" name="y" value="releaseblock">
+ 
+ <input type="hidden" name="cells" value="ids">
+ <input type="submit" value="Search">
+ </form>
+ </span>
+ <span class="inIssueAdvSearch" style="margin:0 .4em">
+ <a href="advsearch">Advanced search</a>
+ </span>
+ <span class="inIssueSearchTips" style="margin:0 .4em">
+ <a href="searchtips">Search tips</a>
+ </span>
+ 
+</div>
+</div>
+
+
+<script type="text/javascript" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K">
+runOnLoad(function() {
+ 
+ var oldScope = "2";
+ function scopeChange() {
+ 
+ }
+ if ($("can"))
+ $("can").addEventListener("change", scopeChange);
+});
+</script>
+
+
+
+
+
+ </div>
+
+
+ 
+
+
+
+
+ <table align="center" border="0" cellspacing="0" cellpadding="0" class="cue">
+ <tr><td><span>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ <b>Note:</b>
+ Color blocks (like <span class="availability_unsure" style="padding:0">&#9608;</span> or
+ <span class="availability_never" style="padding:0">&#9608;</span>)
+ mean that a user may not be available. Tooltip shows the reason.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ </span>
+ 
+ 
+ </td></tr>
+ </table>
+
+
+ <script type="text/javascript" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K">
+runOnLoad(function() {
+ var dismissLinks = document.querySelectorAll(".dismiss_cue");
+ for (var i = 0; i < dismissLinks.length; ++i) {
+ var dismissCue = dismissLinks[i];
+ dismissCue.addEventListener("click", function(event) {
+ _CS_dismissCue("availibility_msgs");
+ if (this.getAttribute("href") === "#")
+ event.preventDefault();
+ });
+ }
+});
+ </script>
+
+
+
+
+
+
+<div id="maincol">
+ <table id="alert-table" align="center" border="0" cellspacing="0" cellpadding="0" style="margin-bottom: 6px;display: none">
+ <tr><td class="notice" id="notice">
+ 
+ 
+ 
+ 
+ 
+ </td></tr>
+ </table>
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+ 
+
+<div id="color_control" class="closed_colors">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" class="issuepage" id="meta-container">
+<tbody class="collapse"> 
+ <tr>
+ <td nowrap="nowrap" class="vt" style="width:12em; padding:0" rowspan="3" id="issuemeta">
+ <div id="meta-float">
+ <div class="h3 issuemetaheader">
+ 
+ 
+ <a href="detail?id=579801">Issue 579801</a>
+ 
+ </div> 
+ <div class="issuemetaheader">
+ Starred by 1
+  user 
+ </div>
+ 
+ <div id="issue_meta_details"> 
+ 
+<table cellspacing="0" cellpadding="0">
+ <tr><th align="left" style="padding-right:.3em">Status:</th>
+ <td width="100%">
+ 
+ <span title="Fixed = Work completed, needs verification">Fixed</span>
+ 
+ </td>
+ </tr>
+ 
+ 
+ <tr><th align="left" class="vt">Owner:</th><td>
+ 
+ 
+<div class="userlink_avail" title="est...@chromium.org">
+ 
+ 
+ <a href="/u/1897813591/">est...@chromium.org</a>
+</div>
+
+ 
+
+
+ 
+ </td>
+ </tr>
+ 
+ 
+ <tr><th align="left" valign="top" style="padding-right:.3em">Closed:</th>
+ <td align="left" valign="top" width="100%">
+ Apr 2016
+ </td>
+ </tr>
+ 
+ 
+ 
+ <tr><th class="vt" align="left">Cc:</th><td>
+ 
+ 
+<div class="userlink_avail" title="falken@chromium.org">
+ 
+ 
+ <a href="/u/falken@chromium.org/">falken@chromium.org</a>
+</div>
+
+
+<div class="userlink_avail" title="mkwst@chromium.org">
+ 
+ 
+ <a href="/u/mkwst@chromium.org/">mkwst@chromium.org</a>
+</div>
+
+
+<div class="userlink_avail" title="jww@chromium.org:
+Last visit &gt; 30 days ago">
+ 
+ <span class="availability_none">&#9608;</span>
+ 
+ 
+ <a href="/u/jww@chromium.org/">jww@chromium.org</a>
+</div>
+
+
+ 
+ </td></tr>
+ 
+ 
+ 
+ <tr>
+ <th align="left" valign="top" style="padding-right:.3em">Components:</th>
+ <td align="left" valign="top" width="100%">
+ 
+ <div><a href="list?q=component:Blink&gt;SecurityFeature" class="fieldvalue"
+ 
+ title="Blink&gt;SecurityFeature = XSS Auditor, CSP, CORS, etc."
+ >Blink&gt;SecurityFeature</a></div>
+ 
+ <div><a href="list?q=component:Blink&gt;ServiceWorker" class="fieldvalue"
+ 
+ title="Blink&gt;ServiceWorker = ServiceWorker API"
+ >Blink&gt;ServiceWorker</a></div>
+ 
+ </td>
+ </tr>
+ 
+ 
+ 
+ <tr><th align="left" valign="top" title="How many engineer days the task is estimated to take."
+ style="padding-right:.3em"
+ >EstimatedDays:</th>
+ <td align="left" valign="top" width="100%">
+ 
+ ----
+ 
+ </td>
+ </tr>
+ 
+ 
+ 
+ <tr><th align="left" valign="top" title="Date of next expected progress update or deadline for providing requested information."
+ style="padding-right:.3em"
+ >NextAction:</th>
+ <td align="left" valign="top" width="100%">
+ 
+ ----
+ 
+ </td>
+ </tr>
+ 
+ 
+ 
+ <tr><th align="left" valign="top" title="Operating System"
+ style="padding-right:.3em"
+ >OS:</th>
+ <td align="left" valign="top" width="100%">
+ 
+ ----
+ 
+ </td>
+ </tr>
+ 
+ 
+ 
+ <tr><th align="left" valign="top" title="Priority"
+ style="padding-right:.3em"
+ >Pri:</th>
+ <td align="left" valign="top" width="100%">
+ 
+ 
+ <a href="list?q=Pri=&quot;1&quot;" class="fieldvalue"
+ title="1 = Need (for target milestone)">1</a
+ >
+ 
+ 
+ 
+ </td>
+ </tr>
+ 
+ 
+ 
+ <tr><th align="left" valign="top" title="Issue Type"
+ style="padding-right:.3em"
+ >Type:</th>
+ <td align="left" valign="top" width="100%">
+ 
+ 
+ <a href="list?q=Type=&quot;Bug-Security&quot;" class="fieldvalue"
+ title="Bug-Security = Security risk to users">Bug-Security</a
+ >
+ 
+ 
+ 
+ </td>
+ </tr>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ <tr><td colspan="2" class="widemeta">
+ 
+ <div style="padding-top:2px">
+ 
+ <a href="list?q=label:Reward-1000"
+ title="Reward-1000 "
+ class="label"><b>Reward-</b>1000</a>
+ 
+ </div>
+ 
+ <div style="padding-top:2px">
+ 
+ <a href="list?q=label:Nag"
+ title="Nag "
+ class="label">Nag</a>
+ 
+ </div>
+ 
+ <div style="padding-top:2px">
+ 
+ <a href="list?q=label:Security_Impact-Stable"
+ title="Security_Impact-Stable = Security bug in stable release"
+ class="label"><b>Security_Impact-</b>Stable</a>
+ 
+ </div>
+ 
+ <div style="padding-top:2px">
+ 
+ <a href="list?q=label:Security_Severity-Medium"
+ title="Security_Severity-Medium = Medium severity security issue"
+ class="label"><b>Security_Severity-</b>Medium</a>
+ 
+ </div>
+ 
+ <div style="padding-top:2px">
+ 
+ <a href="list?q=label:allpublic"
+ title="allpublic "
+ class="label">allpublic</a>
+ 
+ </div>
+ 
+ <div style="padding-top:2px">
+ 
+ <a href="list?q=label:reward-inprocess"
+ title="reward-inprocess "
+ class="label"><b>reward-</b>inprocess</a>
+ 
+ </div>
+ 
+ <div style="padding-top:2px">
+ 
+ <a href="list?q=label:M-51"
+ title="M-51 = 51st Release"
+ class="label"><b>M-</b>51</a>
+ 
+ </div>
+ 
+ <div style="padding-top:2px">
+ 
+ <a href="list?q=label:Release-0-M51"
+ title="Release-0-M51 "
+ class="label"><b>Release-</b>0-M51</a>
+ 
+ </div>
+ 
+ <div style="padding-top:2px">
+ 
+ <a href="list?q=label:CVE-2016-1682"
+ title="CVE-2016-1682 "
+ class="label"><b>CVE-</b>2016-1682</a>
+ 
+ </div>
+ 
+ </td></tr>
+ 
+</table>
+<div class="rel_issues widemeta">
+ 
+ 
+ 
+ <br>
+ <span id="user-hotlists" style=display:none>
+ <b>Your hotlists:</b>
+ <div id="user-hotlists-list">
+ 
+ <br>
+ </div>
+ </span>
+ 
+ 
+ 
+</div>
+
+
+ <br><br>
+ 
+ 
+ <div style="white-space:nowrap"><a href="https://www.google.com/accounts/ServiceLogin?service=ah&amp;passive=true&amp;continue=https://appengine.google.com/_ah/conflogin%3Fcontinue%3Dhttps://bugs.chromium.org/p/chromium/issues/detail%253Fid%253D579801">Sign in</a> to add a comment</div>
+ 
+ 
+
+<script type="text/javascript" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K">
+runOnLoad(function() {
+ if ($("addacomment")) {
+ $("addacomment").addEventListener("click", function(event) {
+ _openIssueUpdateForm();
+ event.preventDefault();
+ });
+ }
+ 
+});
+</script>
+
+ 
+ </div>
+ </div> 
+ </td>
+ <td width="90%" class="vt issueheader" style="border-right: 2px solid white">
+ 
+ <span class="h3" style="padding-left:4px">Security: CSP isn&#39;t applied to Service Workers in Chrome</span>
+ </td>
+ <td class="issueheader">
+ 
+ </td>
+ </tr>
+ <tr>
+ <td class="issueheader" style="padding-left:6px; border-right: 2px solid white">
+ 
+ Reported by
+ <a style="white-space: nowrap" href="/u/461198251/" title="kingston...@gmail.com">kingston...@gmail.com</a>,
+ <span class="date" title="Thu Jan 21 01:45:25 2016 UTC">
+ Jan 21 2016
+ 
+ </span>
+ 
+ 
+ </td>
+ <td align="center" nowrap="nowrap" class="issueheader">
+ 
+ <a href="https://bugs.chromium.org/p/chromium/issues/list?cursor=chromium%3A579801&amp;q=">Back to list</a>
+ 
+ </td>
+ </tr>
+ <tr>
+ <td class="vt issuedescription" width="100%" height="100%" id="cursorarea" colspan="2">
+ 
+<div class="cursor_off vt issuedescription" id="hc0">
+
+<div id="all-descriptions">
+ 
+ <div id="d1"
+ >
+ <pre class="issue_text" tabIndex="1">
+<b>VULNERABILITY DETAILS</b>
+CSP checks are not happening for loading service workers
+
+<b>VERSION</b>
+Chrome Version: 47.0.2526.106 (64-bit) and 47.0.2526.111 (64-bit) stable
+Operating System: Ubuntu 15.04 - have seen on Windows 8.1 stable + unstable branch also
+
+<b>REPRODUCTION CASE</b>
+
+Visit: <a href="https://blazing-fire-305.firebaseapp.com/" title="" class="" rel="nofollow">https://blazing-fire-305.firebaseapp.com/</a> (Feel free to request source access)
+Various test URLs exist there with descriptions of the expected outcomes.
+
+Essentially child-src and frame-src don&#39;t seem to be preventing loading of the worker in any of the example cases where they should be doing.
+When these directives are not being set and I have a default-src of &#39;none&#39; I should always see workers blocked.
+
+I am expecting in the console to see CSP errors rather than &#39;offline worker registered&#39;.
+The same experience has been seen with HTTP header CSP policies.
+
+Loading the code in the latest FireFox the following CSP error is triggered:
+  &quot;Content Security Policy: The page&#39;s settings blocked the loading of a resource at <a href="https://blazing-fire-305.firebaseapp.com/offline-worker.js" title="" class="" rel="nofollow">https://blazing-fire-305.firebaseapp.com/offline-worker.js</a> (&quot;default-src &#39;none&#39;&quot;).&quot;
+ </pre>
+ 
+ </div>
+ 
+ 
+</div>
+
+</div>
+
+ 
+
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc1">
+ <div class="issuecommentheader">
+ <span class="author">
+ 
+ <a name="c1" id="c_ts1453403141"
+ href="/p/chromium/issues/detail?id=579801#c1">Comment 1</a>
+ by
+ <a style="white-space: nowrap" href="/u/1362035678/" title="lgar...@chromium.org">lgar...@chromium.org</a></span>,
+ <span class="date" title="Thu Jan 21 19:05:41 2016 UTC">
+ Jan 21 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-1'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Cc:</b> mkwst@chromium.org<br>
+
+ 
+ <b>Owner:</b> jww@chromium.org<br>
+
+ 
+ <b>Status:</b> Assigned<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+<pre class="issue_text">
+jww@: I don&#39;t know whether to consider this a vulnerability, or whether the spec [1] applies to the worker as well as its fetches.
+
+Could you take this?
+
+[1] <a href="https://www.w3.org/TR/CSP2/#processing-model-workers" title="" class="" rel="nofollow">https://www.w3.org/TR/CSP2/#processing-model-workers</a>
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc2">
+ <div class="issuecommentheader">
+ <span class="author">
+ 
+ <a name="c2" id="c_ts1453403781"
+ href="/p/chromium/issues/detail?id=579801#c2">Comment 2</a>
+ by
+ <a style="white-space: nowrap" href="/u/jww@chromium.org/" title="jww@chromium.org">jww@chromium.org</a></span>,
+ <span class="date" title="Thu Jan 21 19:16:21 2016 UTC">
+ Jan 21 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-2'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Labels:</b> Security_Severity-Medium Security_Impact-Stable<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+<pre class="issue_text">
+I&#39;m pretty sure this is a security bug; the CSP should block the worker (and does in Firefox).
+
+Mike, I can take a look at this, unless you already have a good sense of what&#39;s going wrong. Let me know.
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc3">
+ <div class="issuecommentheader">
+ <span class="author">
+ 
+ <a name="c3" id="c_ts1453404362"
+ href="/p/chromium/issues/detail?id=579801#c3">Comment 3</a>
+ by
+ <a style="white-space: nowrap" href="/u/1362035678/" title="lgar...@chromium.org">lgar...@chromium.org</a></span>,
+ <span class="date" title="Thu Jan 21 19:26:02 2016 UTC">
+ Jan 21 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-3'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Labels:</b> Cr-Security<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc4">
+ <div class="issuecommentheader">
+ <span class="author">
+ 
+ <a name="c4" id="c_ts1453409544"
+ href="/p/chromium/issues/detail?id=579801#c4">Comment 4</a>
+ by
+ <a style="white-space: nowrap" href="/u/jww@chromium.org/" title="jww@chromium.org">jww@chromium.org</a></span>,
+ <span class="date" title="Thu Jan 21 20:52:24 2016 UTC">
+ Jan 21 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-4'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Labels:</b> Cr-Blink-SecurityFeature<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc5">
+ <div class="issuecommentheader">
+ <span class="author">
+ <span class="role_label">Project Member</span>
+ <a name="c5" id="c_ts1453412509"
+ href="/p/chromium/issues/detail?id=579801#c5">Comment 5</a>
+ by
+ <a style="white-space: nowrap" href="/u/2757933724/" title="clusterf...@chromium.org">clusterf...@chromium.org</a></span>,
+ <span class="date" title="Thu Jan 21 21:41:49 2016 UTC">
+ Jan 21 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-5'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Labels:</b> Pri-1<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc6">
+ <div class="issuecommentheader">
+ <span class="author">
+ 
+ <a name="c6" id="c_ts1453414530"
+ href="/p/chromium/issues/detail?id=579801#c6">Comment 6</a>
+ by
+ <a style="white-space: nowrap" href="/u/1362035678/" title="lgar...@chromium.org">lgar...@chromium.org</a></span>,
+ <span class="date" title="Thu Jan 21 22:15:30 2016 UTC">
+ Jan 21 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-6'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Labels:</b> M-48<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+<pre class="issue_text">
+Setting to M48 based on severity guidelines, but we can revise to M49.
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc7">
+ <div class="issuecommentheader">
+ <span class="author">
+ <span class="role_label">Project Member</span>
+ <a name="c7" id="c_ts1455265076"
+ href="/p/chromium/issues/detail?id=579801#c7">Comment 7</a>
+ by
+ <a style="white-space: nowrap" href="/u/2757933724/" title="clusterf...@chromium.org">clusterf...@chromium.org</a></span>,
+ <span class="date" title="Fri Feb 12 08:17:56 2016 UTC">
+ Feb 12 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-7'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Labels:</b> Nag<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+<pre class="issue_text">
+jww@: Uh oh! This issue is still open and hasn&#39;t been updated in the last 21 days. Since this is a serious security vulnerability, we want to make sure progress is happening. Can you update the bug with current status, and what, if anything, is blocking?
+
+If you are not the right Owner for this bug, please find someone else to own it as soon as possible and remove yourself as Owner.
+
+If the issue is already fixed or you are to unable to reproduce it, please close the bug. (And thanks for fixing the bug!).
+
+These nags can be disabled by adding a &#39;WIP&#39; label and an optional codereview link.
+
+- Your friendly ClusterFuzz
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc8">
+ <div class="issuecommentheader">
+ <span class="author">
+ 
+ <a name="c8" id="c_ts1455774813"
+ href="/p/chromium/issues/detail?id=579801#c8">Comment 8</a>
+ by
+ <a style="white-space: nowrap" href="/u/raymes@chromium.org/" title="raymes@chromium.org">raymes@chromium.org</a></span>,
+ <span class="date" title="Thu Feb 18 05:53:33 2016 UTC">
+ Feb 18 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-8'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+
+<pre class="issue_text">
+jww: Any update on this? Thanks!
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc9">
+ <div class="issuecommentheader">
+ <span class="author">
+ <span class="role_label">Project Member</span>
+ <a name="c9" id="c_ts1457027597"
+ href="/p/chromium/issues/detail?id=579801#c9">Comment 9</a>
+ by
+ <a style="white-space: nowrap" href="/u/2757933724/" title="clusterf...@chromium.org">clusterf...@chromium.org</a></span>,
+ <span class="date" title="Thu Mar  3 17:53:17 2016 UTC">
+ Mar 3 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-9'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Labels:</b> -M-48 M-49<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc10">
+ <div class="issuecommentheader">
+ <span class="author">
+ <span class="role_label">Project Member</span>
+ <a name="c10" id="c_ts1457645687"
+ href="/p/chromium/issues/detail?id=579801#c10">Comment 10</a>
+ by
+ <a style="white-space: nowrap" href="/u/2757933724/" title="clusterf...@chromium.org">clusterf...@chromium.org</a></span>,
+ <span class="date" title="Thu Mar 10 21:34:47 2016 UTC">
+ Mar 10 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-10'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+
+<pre class="issue_text">
+jww@: Uh oh! This issue is still open and hasn&#39;t been updated in the last 48 days. Since this is a serious security vulnerability, we want to make sure progress is happening. Can you update the bug with current status, and what, if anything, is blocking?
+
+If you are not the right Owner for this bug, please find someone else to own it as soon as possible and remove yourself as Owner.
+
+If the issue is already fixed or you are to unable to reproduce it, please close the bug. (And thanks for fixing the bug!).
+
+These nags can be disabled by adding a &#39;WIP&#39; label and an optional codereview link.
+
+- Your friendly ClusterFuzz
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc11">
+ <div class="issuecommentheader">
+ <span class="author">
+ 
+ <a name="c11" id="c_ts1458088241"
+ href="/p/chromium/issues/detail?id=579801#c11">Comment 11</a>
+ by
+ <a style="white-space: nowrap" href="/u/jww@chromium.org/" title="jww@chromium.org">jww@chromium.org</a></span>,
+ <span class="date" title="Wed Mar 16 00:30:41 2016 UTC">
+ Mar 16 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-11'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Cc:</b> jww@chromium.org<br>
+
+ 
+ <b>Owner:</b> est...@chromium.org<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+<pre class="issue_text">
+estark, I thought you were looking at Workers and CSP at one point, so I&#39;m assigning to you. If not, let&#39;s chat about this at some point.
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc12">
+ <div class="issuecommentheader">
+ <span class="author">
+ <span class="role_label">Project Member</span>
+ <a name="c12" id="c_ts1459950739"
+ href="/p/chromium/issues/detail?id=579801#c12">Comment 12</a>
+ by
+ <a style="white-space: nowrap" href="/u/2757933724/" title="clusterf...@chromium.org">clusterf...@chromium.org</a></span>,
+ <span class="date" title="Wed Apr  6 13:52:19 2016 UTC">
+ Apr 6 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-12'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+
+<pre class="issue_text">
+estark@: Uh oh! This issue is still open and hasn&#39;t been updated in the last 21 days. Since this is a serious security vulnerability, we want to make sure progress is happening. Can you update the bug with current status, and what, if anything, is blocking?
+
+If you are not the right Owner for this bug, please find someone else to own it as soon as possible and remove yourself as Owner.
+
+If the issue is already fixed or you are to unable to reproduce it, please close the bug. (And thanks for fixing the bug!).
+
+These nags can be disabled by adding a &#39;WIP&#39; label and an optional codereview link.
+
+- Your friendly ClusterFuzz
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc13">
+ <div class="issuecommentheader">
+ <span class="author">
+ 
+ <a name="c13" id="c_ts1459963817"
+ href="/p/chromium/issues/detail?id=579801#c13">Comment 13</a>
+ by
+ <a style="white-space: nowrap" href="/u/1897813591/" title="est...@chromium.org">est...@chromium.org</a></span>,
+ <span class="date" title="Wed Apr  6 17:30:17 2016 UTC">
+ Apr 6 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-13'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+
+<pre class="issue_text">
+I&#39;ll take a look at this today.
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc14">
+ <div class="issuecommentheader">
+ <span class="author">
+ 
+ <a name="c14" id="c_ts1459979493"
+ href="/p/chromium/issues/detail?id=579801#c14">Comment 14</a>
+ by
+ <a style="white-space: nowrap" href="/u/1897813591/" title="est...@chromium.org">est...@chromium.org</a></span>,
+ <span class="date" title="Wed Apr  6 21:51:33 2016 UTC">
+ Apr 6 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-14'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Cc:</b> falken@chromium.org<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+<pre class="issue_text">
++falken for SW expertise
+
+Nothing fancy here -- it looks like the main scripts for SWs are loaded outside the normal Blink resource loading path and CSP checks aren&#39;t applied to them. I have a CL with a fix here: <a href="https://codereview.chromium.org/1861253004/" title="" class="" rel="nofollow">https://codereview.chromium.org/1861253004/</a>
+
+falken: it looks like redirects aren&#39;t allowed for SWs, so we don&#39;t have to worry about applying CSP when following a redirect. (<a href="https://code.google.com/p/chromium/codesearch#chromium/src/content/browser/service_worker/service_worker_write_to_cache_job.cc&amp;sq=package:chromium&amp;type=cs&amp;l=230&amp;rcl=1459941399" title="" class="" rel="nofollow">https://code.google.com/p/chromium/codesearch#chromium/src/content/browser/service_worker/service_worker_write_to_cache_job.cc&amp;sq=package:chromium&amp;type=cs&amp;l=230&amp;rcl=1459941399</a>) Is my understanding correct? Also, should that OnReceivedRedirect() implementation be cancelling the request?
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc15">
+ <div class="issuecommentheader">
+ <span class="author">
+ 
+ <a name="c15" id="c_ts1459979605"
+ href="/p/chromium/issues/detail?id=579801#c15">Comment 15</a>
+ by
+ <a style="white-space: nowrap" href="/u/1897813591/" title="est...@chromium.org">est...@chromium.org</a></span>,
+ <span class="date" title="Wed Apr  6 21:53:25 2016 UTC">
+ Apr 6 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-15'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Status:</b> Started<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc16">
+ <div class="issuecommentheader">
+ <span class="author">
+ 
+ <a name="c16" id="c_ts1460002253"
+ href="/p/chromium/issues/detail?id=579801#c16">Comment 16</a>
+ by
+ <a style="white-space: nowrap" href="/u/falken@chromium.org/" title="falken@chromium.org">falken@chromium.org</a></span>,
+ <span class="date" title="Thu Apr  7 04:10:53 2016 UTC">
+ Apr 7 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-16'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Components:</b> -Security Blink&gt;ServiceWorker<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+<pre class="issue_text">
+&gt; falken: it looks like redirects aren&#39;t allowed for SWs, so we don&#39;t have to worry about applying CSP when following a redirect. (<a href="https://code.google.com/p/chromium/codesearch#chromium/src/content/browser/service_worker/service_worker_write_to_cache_job.cc&amp;sq=package:chromium&amp;type=cs&amp;l=230&amp;rcl=1459941399" title="" class="" rel="nofollow">https://code.google.com/p/chromium/codesearch#chromium/src/content/browser/service_worker/service_worker_write_to_cache_job.cc&amp;sq=package:chromium&amp;type=cs&amp;l=230&amp;rcl=1459941399</a>) Is my understanding correct?
+
+Yes redirects are not allowed for fetching the SW main script. For reference, the spec decided that here: <a href="https://github.com/slightlyoff/ServiceWorker/issues/618" title="" class="" rel="nofollow">https://github.com/slightlyoff/ServiceWorker/issues/618</a> and Firefox also disallows it: <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1131271" title="" class="" rel="nofollow">https://bugzilla.mozilla.org/show_bug.cgi?id=1131271</a>
+
+I&#39;m not sure if we decided anything for import scripts from the SW though. The current Chrome impl is rejecting them.
+
+&gt; Also, should that OnReceivedRedirect() implementation be cancelling the request?
+
+I&#39;m not sure. The other error cases in that class are just calling NotifyStartError() as well. What is the difference between NotifyStartError() and Kill() (I presume that is what is meant by &quot;cancelling the request&quot;?)
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc17">
+ <div class="issuecommentheader">
+ <span class="author">
+ <span class="role_label">Project Member</span>
+ <a name="c17" id="c_ts1460045824"
+ href="/p/chromium/issues/detail?id=579801#c17">Comment 17</a>
+ by
+ <a style="white-space: nowrap" href="/u/bugdroid1@chromium.org/" title="bugdroid1@chromium.org">bugdroid1@chromium.org</a></span>,
+ <span class="date" title="Thu Apr  7 16:17:04 2016 UTC">
+ Apr 7 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-17'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+
+<pre class="issue_text">
+The following revision refers to this bug:
+  <a href="https://chromium.googlesource.com/chromium/src.git/+/5289a5d4c98681e9a0f2d28da0c7aa35e282db57" title="" class="" rel="nofollow">https://chromium.googlesource.com/chromium/src.git/+/5289a5d4c98681e9a0f2d28da0c7aa35e282db57</a>
+
+commit <a href="https://crrev.com/5289a5d4c98681e9a0f2d28da0c7aa35e282db57" title="" class="" rel="nofollow">5289a5d4c98681e9a0f2d28da0c7aa35e282db57</a>
+Author: estark &lt;<a href="/u/estark@chromium.org" title="" class="" rel="nofollow">estark@chromium.org</a>&gt;
+Date: Thu Apr 07 16:14:40 2016
+
+Check CSP before registering ServiceWorkers
+
+Service Worker registrations should be subject to the same CSP checks as
+other workers. The spec doesn&#39;t say this explicitly
+(<a href="https://www.w3.org/TR/CSP2/#directive-child-src-workers" title="" class="" rel="nofollow">https://www.w3.org/TR/CSP2/#directive-child-src-workers</a> says &quot;Worker or
+SharedWorker constructors&quot;), but it seems to be in the spirit of things,
+and it matches Firefox&#39;s behavior.
+
+BUG=<a href="/p/chromium/issues/detail?id=579801" title="Security: CSP isn&#39;t applied to Service Workers in Chrome" class="closed_ref" rel="nofollow"> 579801 </a>
+
+Review URL: <a href="https://codereview.chromium.org/1861253004" title="" class="" rel="nofollow">https://codereview.chromium.org/1861253004</a>
+
+Cr-Commit-Position: refs/heads/master@{#385775}
+
+[add] <a href="https://crrev.com/5289a5d4c98681e9a0f2d28da0c7aa35e282db57/third_party/WebKit/LayoutTests/http/tests/security/contentSecurityPolicy/resources/service-worker.js" title="" class="" rel="nofollow">https://crrev.com/5289a5d4c98681e9a0f2d28da0c7aa35e282db57/third_party/WebKit/LayoutTests/http/tests/security/contentSecurityPolicy/resources/service-worker.js</a>
+[add] <a href="https://crrev.com/5289a5d4c98681e9a0f2d28da0c7aa35e282db57/third_party/WebKit/LayoutTests/http/tests/security/contentSecurityPolicy/service-worker-allowed.html" title="" class="" rel="nofollow">https://crrev.com/5289a5d4c98681e9a0f2d28da0c7aa35e282db57/third_party/WebKit/LayoutTests/http/tests/security/contentSecurityPolicy/service-worker-allowed.html</a>
+[add] <a href="https://crrev.com/5289a5d4c98681e9a0f2d28da0c7aa35e282db57/third_party/WebKit/LayoutTests/http/tests/security/contentSecurityPolicy/service-worker-blocked-expected.txt" title="" class="" rel="nofollow">https://crrev.com/5289a5d4c98681e9a0f2d28da0c7aa35e282db57/third_party/WebKit/LayoutTests/http/tests/security/contentSecurityPolicy/service-worker-blocked-expected.txt</a>
+[add] <a href="https://crrev.com/5289a5d4c98681e9a0f2d28da0c7aa35e282db57/third_party/WebKit/LayoutTests/http/tests/security/contentSecurityPolicy/service-worker-blocked.html" title="" class="" rel="nofollow">https://crrev.com/5289a5d4c98681e9a0f2d28da0c7aa35e282db57/third_party/WebKit/LayoutTests/http/tests/security/contentSecurityPolicy/service-worker-blocked.html</a>
+[modify] <a href="https://crrev.com/5289a5d4c98681e9a0f2d28da0c7aa35e282db57/third_party/WebKit/Source/modules/serviceworkers/ServiceWorkerContainer.cpp" title="" class="" rel="nofollow">https://crrev.com/5289a5d4c98681e9a0f2d28da0c7aa35e282db57/third_party/WebKit/Source/modules/serviceworkers/ServiceWorkerContainer.cpp</a>
+
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc18">
+ <div class="issuecommentheader">
+ <span class="author">
+ <span class="role_label">Project Member</span>
+ <a name="c18" id="c_ts1460638822"
+ href="/p/chromium/issues/detail?id=579801#c18">Comment 18</a>
+ by
+ <a style="white-space: nowrap" href="/u/sheriffbot@chromium.org/" title="sheriffbot@chromium.org">sheriffbot@chromium.org</a></span>,
+ <span class="date" title="Thu Apr 14 13:00:22 2016 UTC">
+ Apr 14 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-18'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Labels:</b> -M-49 M-50<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc19">
+ <div class="issuecommentheader">
+ <span class="author">
+ 
+ <a name="c19" id="c_ts1460740842"
+ href="/p/chromium/issues/detail?id=579801#c19">Comment 19</a>
+ by
+ <a style="white-space: nowrap" href="/u/1897813591/" title="est...@chromium.org">est...@chromium.org</a></span>,
+ <span class="date" title="Fri Apr 15 17:20:42 2016 UTC">
+ Apr 15 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-19'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Labels:</b> Merge-Request-50<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+<pre class="issue_text">
+I&#39;ve verified that the reproduction in the original report works as expected in Canary, so requesting a merge to M50.
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc20">
+ <div class="issuecommentheader">
+ <span class="author">
+ 
+ <a name="c20" id="c_ts1460740896"
+ href="/p/chromium/issues/detail?id=579801#c20">Comment 20</a>
+ by
+ <a style="white-space: nowrap" href="/u/3491115629/" title="tin...@google.com">tin...@google.com</a></span>,
+ <span class="date" title="Fri Apr 15 17:21:36 2016 UTC">
+ Apr 15 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-20'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Labels:</b> -Merge-Request-50 Merge-Review-50 Hotlist-Merge-Review<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+<pre class="issue_text">
+[Automated comment] Less than 2 weeks to go before stable on M50, manual review required.
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc21">
+ <div class="issuecommentheader">
+ <span class="author">
+ <span class="role_label">Project Member</span>
+ <a name="c21" id="c_ts1460751141"
+ href="/p/chromium/issues/detail?id=579801#c21">Comment 21</a>
+ by
+ <a style="white-space: nowrap" href="/u/2757933724/" title="clusterf...@chromium.org">clusterf...@chromium.org</a></span>,
+ <span class="date" title="Fri Apr 15 20:12:21 2016 UTC">
+ Apr 15 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-21'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Status:</b> Fixed<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+<pre class="issue_text">
+Please mark security bugs as fixed as soon as the fix lands, and before requesting merges.
+
+- Your friendly ClusterFuzz
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc22">
+ <div class="issuecommentheader">
+ <span class="author">
+ 
+ <a name="c22" id="c_ts1460757633"
+ href="/p/chromium/issues/detail?id=579801#c22">Comment 22</a>
+ by
+ <a style="white-space: nowrap" href="/u/547480339/" title="gov...@chromium.org">gov...@chromium.org</a></span>,
+ <span class="date" title="Fri Apr 15 22:00:33 2016 UTC">
+ Apr 15 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-22'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Labels:</b> -Merge-Review-50 Merge-Approved-50<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+<pre class="issue_text">
+Approving merge to M50 branch 2661 per comment #19. Please merge ASAP. Thank you.
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc23">
+ <div class="issuecommentheader">
+ <span class="author">
+ <span class="role_label">Project Member</span>
+ <a name="c23" id="c_ts1460767300"
+ href="/p/chromium/issues/detail?id=579801#c23">Comment 23</a>
+ by
+ <a style="white-space: nowrap" href="/u/bugdroid1@chromium.org/" title="bugdroid1@chromium.org">bugdroid1@chromium.org</a></span>,
+ <span class="date" title="Sat Apr 16 00:41:40 2016 UTC">
+ Apr 16 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-23'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Labels:</b> -merge-approved-50 merge-merged-2661<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+<pre class="issue_text">
+The following revision refers to this bug:
+  <a href="https://chromium.googlesource.com/chromium/src.git/+/d9f7916c961a0a1511dc8919da76f429e116a7e7" title="" class="" rel="nofollow">https://chromium.googlesource.com/chromium/src.git/+/d9f7916c961a0a1511dc8919da76f429e116a7e7</a>
+
+commit <a href="https://crrev.com/d9f7916c961a0a1511dc8919da76f429e116a7e7" title="" class="" rel="nofollow">d9f7916c961a0a1511dc8919da76f429e116a7e7</a>
+Author: Emily Stark &lt;<a href="/u/estark@google.com" title="" class="" rel="nofollow">estark@google.com</a>&gt;
+Date: Sat Apr 16 00:39:27 2016
+
+Check CSP before registering ServiceWorkers
+
+Service Worker registrations should be subject to the same CSP checks as
+other workers. The spec doesn&#39;t say this explicitly
+(<a href="https://www.w3.org/TR/CSP2/#directive-child-src-workers" title="" class="" rel="nofollow">https://www.w3.org/TR/CSP2/#directive-child-src-workers</a> says &quot;Worker or
+SharedWorker constructors&quot;), but it seems to be in the spirit of things,
+and it matches Firefox&#39;s behavior.
+
+BUG=<a href="/p/chromium/issues/detail?id=579801" title="Security: CSP isn&#39;t applied to Service Workers in Chrome" class="closed_ref" rel="nofollow"> 579801 </a>
+
+Review URL: <a href="https://codereview.chromium.org/1861253004" title="" class="" rel="nofollow">https://codereview.chromium.org/1861253004</a>
+
+Cr-Commit-Position: refs/heads/master@{#385775}
+(cherry picked from commit <a href="https://crrev.com/5289a5d4c98681e9a0f2d28da0c7aa35e282db57" title="" class="" rel="nofollow">5289a5d4c98681e9a0f2d28da0c7aa35e282db57</a>)
+
+Review URL: <a href="https://codereview.chromium.org/1898483002" title="" class="" rel="nofollow">https://codereview.chromium.org/1898483002</a> .
+
+Cr-Commit-Position: refs/branch-heads/2661@{#593}
+Cr-Branched-From: <a href="https://crrev.com/ef6f6ae5e4c96622286b563658d5cd62a6cf1197" title="" class="" rel="nofollow">ef6f6ae5e4c96622286b563658d5cd62a6cf1197</a>-refs/heads/master@{#378081}
+
+[add] <a href="https://crrev.com/d9f7916c961a0a1511dc8919da76f429e116a7e7/third_party/WebKit/LayoutTests/http/tests/security/contentSecurityPolicy/resources/service-worker.js" title="" class="" rel="nofollow">https://crrev.com/d9f7916c961a0a1511dc8919da76f429e116a7e7/third_party/WebKit/LayoutTests/http/tests/security/contentSecurityPolicy/resources/service-worker.js</a>
+[add] <a href="https://crrev.com/d9f7916c961a0a1511dc8919da76f429e116a7e7/third_party/WebKit/LayoutTests/http/tests/security/contentSecurityPolicy/service-worker-allowed.html" title="" class="" rel="nofollow">https://crrev.com/d9f7916c961a0a1511dc8919da76f429e116a7e7/third_party/WebKit/LayoutTests/http/tests/security/contentSecurityPolicy/service-worker-allowed.html</a>
+[add] <a href="https://crrev.com/d9f7916c961a0a1511dc8919da76f429e116a7e7/third_party/WebKit/LayoutTests/http/tests/security/contentSecurityPolicy/service-worker-blocked-expected.txt" title="" class="" rel="nofollow">https://crrev.com/d9f7916c961a0a1511dc8919da76f429e116a7e7/third_party/WebKit/LayoutTests/http/tests/security/contentSecurityPolicy/service-worker-blocked-expected.txt</a>
+[add] <a href="https://crrev.com/d9f7916c961a0a1511dc8919da76f429e116a7e7/third_party/WebKit/LayoutTests/http/tests/security/contentSecurityPolicy/service-worker-blocked.html" title="" class="" rel="nofollow">https://crrev.com/d9f7916c961a0a1511dc8919da76f429e116a7e7/third_party/WebKit/LayoutTests/http/tests/security/contentSecurityPolicy/service-worker-blocked.html</a>
+[modify] <a href="https://crrev.com/d9f7916c961a0a1511dc8919da76f429e116a7e7/third_party/WebKit/Source/modules/serviceworkers/ServiceWorkerContainer.cpp" title="" class="" rel="nofollow">https://crrev.com/d9f7916c961a0a1511dc8919da76f429e116a7e7/third_party/WebKit/Source/modules/serviceworkers/ServiceWorkerContainer.cpp</a>
+
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc24">
+ <div class="issuecommentheader">
+ <span class="author">
+ <span class="role_label">Project Member</span>
+ <a name="c24" id="c_ts1460795545"
+ href="/p/chromium/issues/detail?id=579801#c24">Comment 24</a>
+ by
+ <a style="white-space: nowrap" href="/u/2757933724/" title="clusterf...@chromium.org">clusterf...@chromium.org</a></span>,
+ <span class="date" title="Sat Apr 16 08:32:25 2016 UTC">
+ Apr 16 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-24'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Labels:</b> -Restrict-View-SecurityTeam Restrict-View-SecurityNotify<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc25">
+ <div class="issuecommentheader">
+ <span class="author">
+ 
+ <a name="c25" id="c_ts1460819430"
+ href="/p/chromium/issues/detail?id=579801#c25">Comment 25</a>
+ by
+ <a style="white-space: nowrap" href="/u/1897813591/" title="est...@chromium.org">est...@chromium.org</a></span>,
+ <span class="date" title="Sat Apr 16 15:10:30 2016 UTC">
+ Apr 16 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-25'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Labels:</b> -M-50 -merge-merged-2661 M-51<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+<pre class="issue_text">
+I tried to cherry-pick this back to M50, but it didn&#39;t apply cleanly and I messed it up and broke the build and reverted the cherry-pick. :( Since it&#39;s medium severity and M50 is going to stable soon, I&#39;m now thinking it might be better to just let this roll out with M51.
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc26">
+ <div class="issuecommentheader">
+ <span class="author">
+ 
+ <a name="c26" id="c_ts1464113666"
+ href="/p/chromium/issues/detail?id=579801#c26">Comment 26</a>
+ by
+ <a style="white-space: nowrap" href="/u/timwillis@google.com/" title="timwillis@google.com">timwillis@google.com</a></span>,
+ <span class="date" title="Tue May 24 18:14:26 2016 UTC">
+ May 24 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-26'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Labels:</b> reward-topanel Release-0-M51<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+<pre class="issue_text">
+Thanks for your report! As we&#39;re getting closer to M51, we&#39;ll consider this report under our Chrome Security Rewards Program - full details here: <a href="https://www.google.com/about/appsecurity/chrome-rewards/" title="" class="" rel="nofollow">https://www.google.com/about/appsecurity/chrome-rewards/</a>
+
+I&#39;ll update this issue once I have a decision from the reward panel.
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc27">
+ <div class="issuecommentheader">
+ <span class="author">
+ 
+ <a name="c27" id="c_ts1464209864"
+ href="/p/chromium/issues/detail?id=579801#c27">Comment 27</a>
+ by
+ <a style="white-space: nowrap" href="/u/461198251/" title="kingston...@gmail.com">kingston...@gmail.com</a></span>,
+ <span class="date" title="Wed May 25 20:57:44 2016 UTC">
+ May 25 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-27'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+
+<pre class="issue_text">
+Regarding the comment on service workers not in the spec it is in the latest:
+<a href="https://w3c.github.io/webappsec-csp/#directive-child-src" title="" class="" rel="nofollow">https://w3c.github.io/webappsec-csp/#directive-child-src</a>
+
+It should probably be added to 7.2.2 of <a href="http://w3c.github.io/webappsec-csp/2/" title="" class="" rel="nofollow">http://w3c.github.io/webappsec-csp/2/</a> though so added that to an open bug on the spec :).
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc28">
+ <div class="issuecommentheader">
+ <span class="author">
+ 
+ <a name="c28" id="c_ts1464211039"
+ href="/p/chromium/issues/detail?id=579801#c28">Comment 28</a>
+ by
+ <a style="white-space: nowrap" href="/u/timwillis@google.com/" title="timwillis@google.com">timwillis@google.com</a></span>,
+ <span class="date" title="Wed May 25 21:17:19 2016 UTC">
+ May 25 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-28'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Labels:</b> -reward-topanel reward-unpaid CVE-2016-1682 reward-1000<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+<pre class="issue_text">
+Congratulations - Our reward panel decided to award $1,000 for this report.
+
+The CVE-ID for this issue is CVE-2016-1682. You&#39;re credited in our release notes at <a href="http://googlechromereleases.blogspot.com/2016/05/stable-channel-update_25.html" title="" class="" rel="nofollow">http://googlechromereleases.blogspot.com/2016/05/stable-channel-update_25.html</a> as &quot;kingstonmailbox&quot;. If you would like to use a different name for credit, please let me know and I can update the release notes.
+
+Someone from our finance team should be in touch within 7 days to collect payment details. If that doesn&#39;t happen, please either update this bug or reach out to me at timwillis@.
+
+Thanks again for your report!
+
+*** Boilerplate reminders! ***
+Please do NOT publicly disclose details until a fix has been released to all our users. Early public disclosure may cancel the provisional reward. Also, please be considerate about disclosure when the bug affects a core library that may be used by other products. Please do NOT share this information with third parties who are not directly involved in fixing the bug. Doing so may cancel the provisional reward. Please be honest if you have already disclosed anything publicly or to third parties. Lastly, we understand that some of you are not interested in money. We offer the option to donate your reward to an established charity. If you prefer this option, let us know and we will also match your donation - subject to our discretion. Any rewards that are unclaimed after 12 months will be donated to a charity of our choosing.
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc29">
+ <div class="issuecommentheader">
+ <span class="author">
+ 
+ <a name="c29" id="c_ts1464212606"
+ href="/p/chromium/issues/detail?id=579801#c29">Comment 29</a>
+ by
+ <a style="white-space: nowrap" href="/u/461198251/" title="kingston...@gmail.com">kingston...@gmail.com</a></span>,
+ <span class="date" title="Wed May 25 21:43:26 2016 UTC">
+ May 25 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-29'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+
+<pre class="issue_text">
+My IRC and twitter handle(KingstonTime) is probably better as I don&#39;t really use this email. Thanks for fixing this!
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc30">
+ <div class="issuecommentheader">
+ <span class="author">
+ 
+ <a name="c30" id="c_ts1464213122"
+ href="/p/chromium/issues/detail?id=579801#c30">Comment 30</a>
+ by
+ <a style="white-space: nowrap" href="/u/timwillis@google.com/" title="timwillis@google.com">timwillis@google.com</a></span>,
+ <span class="date" title="Wed May 25 21:52:02 2016 UTC">
+ May 25 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-30'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+
+<pre class="issue_text">
+No worries - updated: <a href="http://googlechromereleases.blogspot.com/2016/05/stable-channel-update_25.html" title="" class="" rel="nofollow">http://googlechromereleases.blogspot.com/2016/05/stable-channel-update_25.html</a>
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc31">
+ <div class="issuecommentheader">
+ <span class="author">
+ 
+ <a name="c31" id="c_ts1465422985"
+ href="/p/chromium/issues/detail?id=579801#c31">Comment 31</a>
+ by
+ <a style="white-space: nowrap" href="/u/timwillis@google.com/" title="timwillis@google.com">timwillis@google.com</a></span>,
+ <span class="date" title="Wed Jun  8 21:56:25 2016 UTC">
+ Jun 8 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-31'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Labels:</b> reward-inprocess<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc32">
+ <div class="issuecommentheader">
+ <span class="author">
+ 
+ <a name="c32" id="c_ts1465423050"
+ href="/p/chromium/issues/detail?id=579801#c32">Comment 32</a>
+ by
+ <a style="white-space: nowrap" href="/u/timwillis@google.com/" title="timwillis@google.com">timwillis@google.com</a></span>,
+ <span class="date" title="Wed Jun  8 21:57:30 2016 UTC">
+ Jun 8 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-32'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Labels:</b> -reward-unpaid<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc33">
+ <div class="issuecommentheader">
+ <span class="author">
+ <span class="role_label">Project Member</span>
+ <a name="c33" id="c_ts1469278962"
+ href="/p/chromium/issues/detail?id=579801#c33">Comment 33</a>
+ by
+ <a style="white-space: nowrap" href="/u/sheriffbot@chromium.org/" title="sheriffbot@chromium.org">sheriffbot@chromium.org</a></span>,
+ <span class="date" title="Sat Jul 23 13:02:42 2016 UTC">
+ Jul 23 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-33'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Labels:</b> -Restrict-View-SecurityNotify<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+<pre class="issue_text">
+This bug has been closed for more than 14 weeks. Removing security view restrictions.
+
+For more details visit <a href="https://www.chromium.org/issue-tracking/autotriage" title="" class="" rel="nofollow">https://www.chromium.org/issue-tracking/autotriage</a> - Your friendly Sheriffbot
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc34">
+ <div class="issuecommentheader">
+ <span class="author">
+ 
+ <a name="c34" id="c_ts1469488268"
+ href="/p/chromium/issues/detail?id=579801#c34">Comment 34</a>
+ by
+ <a style="white-space: nowrap" href="/u/awhalley@chromium.org/" title="awhalley@chromium.org">awhalley@chromium.org</a></span>,
+ <span class="date" title="Mon Jul 25 23:11:08 2016 UTC">
+ Jul 25 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-34'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Labels:</b> -Hotlist-Merge-review<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc35">
+ <div class="issuecommentheader">
+ <span class="author">
+ <span class="role_label">Project Member</span>
+ <a name="c35" id="c_ts1475327365"
+ href="/p/chromium/issues/detail?id=579801#c35">Comment 35</a>
+ by
+ <a style="white-space: nowrap" href="/u/sheriffbot@chromium.org/" title="sheriffbot@chromium.org">sheriffbot@chromium.org</a></span>,
+ <span class="date" title="Sat Oct  1 13:09:25 2016 UTC">
+ Oct 1 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-35'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+
+<pre class="issue_text">
+This bug has been closed for more than 14 weeks. Removing security view restrictions.
+
+For more details visit <a href="https://www.chromium.org/issue-tracking/autotriage" title="" class="" rel="nofollow">https://www.chromium.org/issue-tracking/autotriage</a> - Your friendly Sheriffbot
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc36">
+ <div class="issuecommentheader">
+ <span class="author">
+ <span class="role_label">Project Member</span>
+ <a name="c36" id="c_ts1475413712"
+ href="/p/chromium/issues/detail?id=579801#c36">Comment 36</a>
+ by
+ <a style="white-space: nowrap" href="/u/sheriffbot@chromium.org/" title="sheriffbot@chromium.org">sheriffbot@chromium.org</a></span>,
+ <span class="date" title="Sun Oct  2 13:08:32 2016 UTC">
+ Oct 2 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-36'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+
+<pre class="issue_text">
+This bug has been closed for more than 14 weeks. Removing security view restrictions.
+
+For more details visit <a href="https://www.chromium.org/issue-tracking/autotriage" title="" class="" rel="nofollow">https://www.chromium.org/issue-tracking/autotriage</a> - Your friendly Sheriffbot
+</pre>
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+ 
+ 
+ 
+ 
+ <div class="">
+ <div class="cursor_off vt issuecomment" id="hc37">
+ <div class="issuecommentheader">
+ <span class="author">
+ 
+ <a name="c37" id="c_ts1475437892"
+ href="/p/chromium/issues/detail?id=579801#c37">Comment 37</a>
+ by
+ <a style="white-space: nowrap" href="/u/3154152346/" title="mbarbe...@chromium.org">mbarbe...@chromium.org</a></span>,
+ <span class="date" title="Sun Oct  2 19:51:32 2016 UTC">
+ Oct 2 2016
+ 
+ </span>
+ 
+ </div>
+ <div class="issuecommentbody" tabIndex="0">
+ 
+ <div style="float:right; margin-right:.3em; text-align:right" class="ichcommands">
+ <span id='comment-action-loading-37'
+ class='loading' style='display:none;'>Processing</span>
+ 
+ 
+ </div>
+ 
+ 
+ <table class="updates">
+ <tr><td class="box-inner">
+ 
+ <b>Labels:</b> allpublic<br>
+
+ 
+ 
+ </td></tr>
+ </table>
+ 
+
+
+ 
+ 
+ 
+ </div>
+</div>
+
+ </div>
+ 
+ 
+
+
+ 
+
+
+ </td>
+ </tr>
+
+ 
+ <tr>
+ <td></td>
+ <td class="vt issuecomment">
+ <div class="issuecommentheader" style="margin-bottom:1em"></div>
+ <span class="indicator">&#9658;</span> <a href="https://www.google.com/accounts/ServiceLogin?service=ah&amp;passive=true&amp;continue=https://appengine.google.com/_ah/conflogin%3Fcontinue%3Dhttps://bugs.chromium.org/p/chromium/issues/detail%253Fid%253D579801"
+ >Sign in</a> to add a comment
+ </td>
+ </tr>
+ 
+
+</tbody>
+</table>
+<br>
+<script type="text/javascript" defer src="/static/js/graveyard/common.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+<script type="text/javascript" defer src="/static/js/graveyard/listen.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+<script type="text/javascript" defer src="/static/js/graveyard/xmlhttp.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+<script type="text/javascript" defer src="/static/js/graveyard/shapes.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+<script type="text/javascript" defer src="/static/js/graveyard/geom.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+<script type="text/javascript" defer src="/static/js/graveyard/popup_controller.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+<script type="text/javascript" defer src="/static/js/framework/framework-ajax.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+<script type="text/javascript" defer src="/static/js/tracker/externs.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+<script type="text/javascript" defer src="/static/js/tracker/ac.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+<script type="text/javascript" defer src="/static/js/tracker/tracker-ac.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+<script type="text/javascript" defer src="/static/js/tracker/tracker-components.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+<script type="text/javascript" defer src="/static/js/tracker/tracker-dd.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+<script type="text/javascript" defer src="/static/js/tracker/tracker-display.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+<script type="text/javascript" defer src="/static/js/tracker/tracker-editing.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+<script type="text/javascript" defer src="/static/js/tracker/tracker-fields.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+<script type="text/javascript" defer src="/static/js/tracker/tracker-keystrokes.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+<script type="text/javascript" defer src="/static/js/tracker/tracker-nav.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+<script type="text/javascript" defer src="/static/js/tracker/tracker-util.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+<script type="text/javascript" defer src="/static/js/tracker/tracker-onload.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+<script type="text/javascript" defer src="/static/js/tracker/predict.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+<script type="text/javascript" defer src="/static/js/framework/clientmon.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+
+
+
+ 
+
+</div> 
+<form name="delcom" action="delComment.do?q=&amp;can=2&amp;groupby=&amp;sort=&amp;colspec=ID+Pri+M+Stars+ReleaseBlock+Component+Status+Owner+Summary+OS+Modified" method="POST">
+ <input type="hidden" name="sequence_num" value="">
+ <input type="hidden" name="mode" value="">
+ <input type="hidden" name="id" value="579801">
+ <input type="hidden" name="token" value="">
+<input type="hidden" name="hotlist_id" value="">
+</form>
+<form name="flagcom" action="flagspam.do" method="post">
+ <input type="hidden" name="comment_id" value="">
+ <input type="hidden" name="sequence_num" value="">
+ <input type="hidden" name="spam" value="">
+ <input type="hidden" name="id" value="579801">
+ <input type="hidden" name="token" value="">
+</form>
+<div id="helparea"></div>
+<script type="text/javascript" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K">
+runOnLoad(function() {
+ _fetchOptions('chromium', 'issueOptions',
+ CS_env.token, 1508889403);
+ _fetchUserProjects(false);
+ _onload();
+ function showDescription(n, changeSelect) {
+ for (var i = 1; i <= descCt; i++)
+ $('d' + i).style.display = 'none';
+ if (changeSelect)
+ $('description-select').selectedIndex = n - 1;
+ if (n) {
+ $('d' + n).style.display = '';
+ getParams.desc = n;
+ if (window.history && history.replaceState)
+ history.replaceState(
+ '', '', makeQueryString(getParams) + window.location.hash);
+ }
+ }
+ 
+ var descCt = 1;
+ 
+ 
+ function delComment(sequence_num, delete_mode) {
+ var r = true;
+ if (delete_mode == 1) {
+ r = confirm('Delete this comment?');
+ }
+ if (!r) {
+ return false;
+ }
+ var f = document.forms["delcom"];
+ f.sequence_num.value = sequence_num;
+ f.mode.value = delete_mode;
+ 
+ var loading = $('comment-action-loading-' + sequence_num);
+ loading.style.display = 'inline';
+ TKR_initialFormValues = TKR_currentFormValues();
+ f.submit();
+ return false;
+ }
+ _floatMetadata();
+ if ($("star"))
+ $("star").addEventListener("click", function (event) {
+ _TKR_toggleStar($("star"), "chromium", 579801, null, null, "");
+ _TKR_syncStarIcons($("star"), "star2");
+ });
+ var delCommentElements = document.getElementsByClassName("delComment");
+ for (var i = 0; i < delCommentElements.length; ++i) {
+ var el = delCommentElements[i];
+ el.addEventListener("click", function(event) {
+ var sequence = event.target.getAttribute("data-sequence");
+ var mode = event.target.getAttribute("data-mode");
+ delComment(sequence, mode);
+ event.preventDefault();
+ });
+ }
+ function flagComment(comment_id, sequence_num, isSpam) {
+ var f = document.forms["flagcom"];
+ f.comment_id.value = comment_id;
+ f.sequence_num.value = sequence_num;
+ f.spam.value = isSpam.toLowerCase() == "false";
+ var loading = $('comment-action-loading-' + sequence_num);
+ loading.style.display = 'inline';
+ TKR_initialFormValues = TKR_currentFormValues();
+ f.submit();
+ return false;
+ }
+ var flagCommentElements = document.getElementsByClassName("flagComment");
+ for (var i = 0; i < flagCommentElements.length; ++i) {
+ var el = flagCommentElements[i];
+ el.addEventListener("click", function(event) {
+ var id = event.target.getAttribute("data-id");
+ var sequence = event.target.getAttribute("data-sequence");
+ var isSpam = event.target.getAttribute("data-spam");
+ flagComment(id, sequence, isSpam);
+ event.preventDefault();
+ });
+ }
+ window.onsubmit = function() {
+ TKR_initialFormValues = TKR_currentFormValues();
+ };
+ window.onbeforeunload = function() {
+ if (TKR_isDirty()) {
+ // This message is ignored in recent versions of Chrome and Firefox.
+ return "You have unsaved changes. Leave this page and discard them?";
+ }
+ };
+});
+</script>
+<script type="text/javascript" defer src="/static/third_party/js/kibbles-1.3.3.comp.js" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+<script type="text/javascript" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K">
+runOnLoad(function() {
+ _setupKibblesOnDetailPage(
+ 'https://bugs.chromium.org/p/chromium/issues/list?cursor\x3dchromium%3A579801\x26q\x3d',
+ '/p/chromium/issues/entry',
+ '',
+ '',
+ 'chromium', 579801,
+ false, false, '');
+});
+</script>
+ <script type="text/javascript" defer src="/static/js/framework/externs.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+ <script type="text/javascript" defer src="/static/js/framework/env.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+ <script type="text/javascript" defer src="/static/js/framework/framework-ajax.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+ <script type="text/javascript" defer src="/static/js/framework/framework-cues.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+ <script type="text/javascript" defer src="/static/js/framework/framework-display.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+ <script type="text/javascript" defer src="/static/js/framework/framework-menu.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+ <script type="text/javascript" defer src="/static/js/framework/framework-myprojects.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+ <script type="text/javascript" defer src="/static/js/framework/framework-myhotlists.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+ <script type="text/javascript" defer src="/static/js/framework/framework-accountmenu.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+ <script type="text/javascript" defer src="/static/js/framework/framework-stars.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+ <script type="text/javascript" defer src="/static/js/framework/project-name-check.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+ <script type="text/javascript" defer src="/static/js/graveyard/xmlhttp.js?version=12261-0182c04.404850745854794817" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K"></script>
+ <script type="text/javascript" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K">
+runOnLoad(function() {
+ var toggles = document.getElementsByClassName("toggleHidden");
+ for (var i = 0; i < toggles.length; ++i) {
+ var toggle = toggles[i];
+ toggle.addEventListener("click", function (event) {
+ _toggleHidden(event.target);
+ event.preventDefault();
+ });
+ }
+ toggles = document.getElementsByClassName("toggleCollapse");
+ for (var i = 0; i < toggles.length; ++i) {
+ var toggle = toggles[i];
+ toggle.addEventListener("click", function (event) {
+ _toggleCollapse(event.target);
+ event.preventDefault();
+ });
+ }
+ 
+});
+ </script>
+</div> 
+<div id="footer">
+ <a href="https://bugs.chromium.org/p/monorail/adminIntro" title="Monorail 12261-0182c04.404850745854794817">About Monorail</a>
+ <a href="https://bugs.chromium.org/p/monorail/issues/entry" target="_blank">Feedback on Monorail</a>
+ <a href="http://www.google.com/policies/terms/">Terms</a>
+ <a href="http://www.google.com/policies/privacy/">Privacy</a>
+</div>
+ 
+ 
+
+
+<script type="text/javascript" nonce="LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K">
+runOnLoad(function() {
+ // CrDX Feedback Button
+ (function(i,s,o,g,r,a,m){i['CrDXObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.setAttribute('nonce','LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K');
+ a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','https://storage.googleapis.com/crdx-feedback.appspot.com/feedback.js','crdx');
+ crdx('setFeedbackButtonLink', 'https://bugs.chromium.org/p/monorail/issues/entry?template=Online%20Feedback');
+ // Google Analytics
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.setAttribute('nonce','LjxLJZV4eQtQkwavhw33cU1ZXyQs3P4K');
+ a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ ga('create', 'UA-55762617-14', {'siteSpeedSampleRate': 100});
+ 
+ ga('send', 'pageview');
+});
+</script>
+ </body>
+</html>
+
